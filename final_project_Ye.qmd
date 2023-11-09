@@ -1,15 +1,19 @@
 ---
-title: "Your_Title"
+title: "Final Project_Ye"
 subtitle: "BMIN503/EPID600 Final Project"
-author: "First_Name Last_Name"
+author: "Wenyuan Ye"
 format: html
 editor: visual
 embed-resources: true
+execute: 
+  warning: false
 ---
 
 ------------------------------------------------------------------------
 
 Use this template to complete your project throughout the course. Your Final Project presentation will be based on the contents of this document. Replace the title/name above and text below with your own, but keep the headers. Feel free to change the theme and other display settings, although this is not required.
+
+# **Machine Learning Based Survival Prediction in Non-metastatic Triple Negative Breast Cancer Using SEER Database**
 
 ### Overview
 
