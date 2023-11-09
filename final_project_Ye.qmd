@@ -1,0 +1,178 @@
+---
+title: "Your_Title"
+subtitle: "BMIN503/EPID600 Final Project"
+author: "First_Name Last_Name"
+format: html
+editor: visual
+embed-resources: true
+---
+
+------------------------------------------------------------------------
+
+Use this template to complete your project throughout the course. Your Final Project presentation will be based on the contents of this document. Replace the title/name above and text below with your own, but keep the headers. Feel free to change the theme and other display settings, although this is not required.
+
+### Overview
+
+This project aims to provide population-based prognostic analysis and investigate the independent prognostic factors for overall survival in non-metastatic triple negative breast cancer (TNBC) patients using data extracted from the Surveillance, Epidemiology,and End Results (SEER) database. It will further construct and validate prediction models for patient prognosis using machine learning and present a comparative analysis of four different models, Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and gradient boosting(XGBoost). The findings of the project will provide a tool to predict survival outcomes of patients with non-metastatic TNBC and contribute to the improvement of individualized treatment and long-term follow-up for these patients.
+
+### Introduction
+
+Breast cancer(BC) is the second most commonly diagnosed cancer in women in the United States, excluding skin cancers. Moreover, it is the primary cause of death among women worldwide \[9\]. Breast cancer death rates in the US. have been decreasing steadily since 1989, owing to the early detection of breast cancer and enhanced awareness, along with improved medications. However, this decline has shown a slight decrease in recent years. Triple-negative breast cancer (TNBC) is a type of breast cancer characterized by negative estrogen receptor, progesterone receptor, and human epidermal growth factor receptor. TNBC generally exhibits more aggressive behavior, a higher likelihood of recurrence, and a worse prognosis (8). Recurrence-free survival and overall survival rates are low for TNBC patients, as they are resistant to endocrine therapy and molecular-targeted therapy, and most rely on chemotherapy. Identifying non-metastatic TNBC patients who remain at high risk of death has been a primary focus of researchers attempting to curtail TNBC mortality. The predictive analysis of TNBC patients can provide reference for evaluating clinical patients to determine surgical methods or develop adjuvant therapies, as well as support the development of individualized treatment plans.
+
+With the advent of the era of big data, professional medical information has become integrated into large datasets, fostering the integration of machine learning methods within the medical industry. Presently, machine learning serves as a valuable tool for analyzing complicated  datasets and predicting risks and survival rates for cancer patients, which results in a significant increase in accuracy rates (13). However, machine learning algorithms have limitations that require practical improvement. For instance, support vector machines (SVM) struggle with processing large numbers samples and variables, K-nearest neighbors (KNN) are not easily interpretable, and decision trees (DF) are quick to train yet not adequately complex (14, 15). Conversely, extreme gradient boosting (XGBoost) is created iteratively to realize loss-function minimization, which allows for superior performance in various fields (16-18). However, clinical patient prognosis prediction rarely applies it. Only a few studies have been conducted using machine learning to study TNBC prognosis, and few prediction models have been compared and validated. Therefore, a more accurate and powerful prediction model based on artificial intelligence (machine learning) is needed for TNBC patient prognosis.
+
+### Methods
+
+### **Data source and patient selection**
+
+The Surveillance, Epidemiology, and End Results (SEER) database is one of the most comprehensive and complete large-scale tumor registries in North America, gathering a vast quantity of evidence-based and medicine related data with an approximate coverage of one-third of the U.S. population (17). In this study, we used SEER\*Stat version 8.3.8 to generate a case list. We enrolled 5062 patients according to the following inclusion criteria: female; year of diagnosis from 2010 to 2020; age of diagnosis≥70 years; breast carcinoma as the only primary malignant cancer diagnosis; American Joint Committee on Cancer (AJCC) 7th edition stage I-III; triple negative subtype. Patients who present with distant metastasis, in situ disease,unknown race, unknown tumor stage and unknown laterality were expelled from the study. Patient demographics and clinical characteristics in our study were gathered, including age, race, marital status, surgery status, chemotherapy status, radiotherapy status, survival time, and months from diagnosis to treatment. Tumor characteristics were also collected, including grade, laterality, AJCC stage, histologic type, tumor size and nodal status. In this study, patients were followed up until death, loss to follow-up or December 31, 2020.
+
+### Data preprocessing
+
+First of all, data that l would analyze was extracted from SEER 17 registries research database(2000-2020) following the above guideline and stored in the xlsx file "BC patients1.xlsx". The xlsx file of raw clinical and outcome database in excel was imported. An overview of of the raw patients demographics and clinical data within the database was shown.
+
+```{r}
+library(readxl)
+setwd("c:/Upenn/datascience/FinalProject")
+dataset = read_xlsx("BC patients1.xlsx")
+str(dataset)
+```
+
+Some information in raw database are not related to this study. Therefore, the database was cleaned for better utilization. Columns related to the study were selected to facilitate further use. The age of selected patients was divided into six categories(\<40, 40-49, 50-59, 60-69, 70-79,and \>=80 years old). The marital status was classified as married, singled, divorced/widowed/other, and unknown separately. Moreover, months from diagnosis to treatment was divided into two categories: 0 month, and \>=1 month.
+
+```{r}
+library(dplyr)
+
+dataset$Age = case_match(dataset$Age, 
+  c("20-24","25-29","30-34","35-39") ~ "<40",
+  c("40-44","45-49") ~ "40-49",
+  c("50-54","55-59") ~ "50-59",
+  c("60-64","65-69") ~ "60-69",
+  c("70-74","75-79") ~ "70-79",
+  c("80-84","85+")  ~ ">=80" ) 
+dataset$'Marital status at diagnosis' = case_match(dataset$'Marital status at diagnosis', 
+  c("Divorced","Widowed","Separated","Unmarried or Domestic Partner") ~ "Divorced/widowed/other",
+  "Single (never married)" ~ "Singled",
+  "Married (including common law)" ~ "Married",
+  "Unknown" ~ "Unknown") 
+dataset$Radiation = case_match(dataset$Radiation, 
+  c("Beam radiation","Combination of beam with implants or isotopes","Radiation, NOS  method or source not specified","Radioactive implants (includes brachytherapy) (1988+)","Radioisotopes (1988+)") ~ "Yes",
+  c("Refused (1988+)","None/Unknown","Recommended, unknown if administered") ~ "No/Unknown")    
+dataset$'AJCC Stage Group' = case_match(dataset$'AJCC Stage Group', 
+  c("IA","IB") ~ "I",
+  c("IIA","IIB") ~ "II",
+  c("III","IIIA","IIIB","IIIC","IIINOS") ~ "III" ) 
+dataset$Surgery <- as.numeric(dataset$Surgery) |>
+  case_match(
+  0 ~ "No",
+  19:90  ~ "Yes" ) |> as.factor()
+dataset$Grade = case_match(dataset$Grade, 
+  "Well differentiated; Grade I" ~ "I",
+  "Moderately differentiated; Grade II" ~ "II",
+  "Poorly differentiated; Grade III" ~ "III",
+  "Undifferentiated; anaplastic; Grade IV" ~ "IV",
+  "Unknown" ~ "Unknown") 
+dataset$'AJCC T Stage' = case_match(dataset$'AJCC T Stage', 
+  c("T1","T1a","T1b","T1c","T1mic") ~ "T1",
+  c("T4","T4a","T4b","T4c","T4d") ~ "T4",
+  "T0" ~ "T0",
+  "T2" ~ "T2",
+  "T3" ~ "T3") 
+dataset$'AJCC N Stage' = case_match(dataset$'AJCC N Stage', 
+  c("N1","N1a","N1b","N1c","N1mi") ~ "N1",
+  c("N2","N2a","N2b","N2NOS") ~ "N2",
+  c("N3","N3a","N3b","N3c","N3NOS") ~ "N3",
+  "N0" ~ "N0" ) 
+dataset$'Months from diagnosis to treatment' <- as.numeric(dataset$'Months from diagnosis to treatment')|> case_match(
+ 0 ~ "0 month",
+ 1:18 ~ ">=1 month") 
+
+```
+
+Created a new column of patient survival status named 'Status' based on 'Year of death recode'. The label of 'censored' means alive at last contact. Created two new columns of patient 3-year OS status and 5-year OS status based on 'Survival months'. Columns related to the study were selected to facilitate further use. The summary of both sociodemographic and clinical data of selected patients was shown in Table 1.
+
+```{r}
+library(gtsummary)
+library(tidyverse)
+
+ dataset.BC <- dataset |> 
+   mutate(
+  OS_5year = case_when((dataset$'Survival months' >= 60) ~ "alive",
+                       (dataset$'Survival months' < 60) ~ "dead"),
+  OS_3year = case_when((dataset$'Survival months' >= 36) ~ "alive",
+                       (dataset$'Survival months' < 36) ~ "dead"),
+ Status.= ifelse(dataset$'Year of death recode' == "Alive at last contact","censored","dead"))  |>
+  mutate_if(is.character,as.factor)
+
+dataset.BC |>
+  select('Patient ID',Age,Sex,'Marital status at diagnosis',Race,Radiation,Chemotherapy,Surgery,'AJCC Stage Group','Histologic Type','Laterality',Grade,'AJCC T Stage','AJCC N Stage','Survival months','Months from diagnosis to treatment',Status.,OS_5year,OS_3year)|>
+ tbl_summary()
+```
+
+### Results
+
+### Univariate and Multivariate Analyses of the Risk Factors of OS
+
+A Cox univariate survival analysis was performed for each variable to analyze the relationship between various clinical and pathological characteristics and patient survival status. As demonstrated in Table 2, the Cox univariate regression results differentiated twelve variables (age, marital status, surgery, chemotherapy, radiation, AJCC stage group, AJCC T stage, AJCC N stage, historic type, grade, laterality of tumor,months from diagnosis to treatment) that were substantially linked with overall survival(P\<0.05).
+
+```{r}
+library(SurvRegCensCov)
+library(survival)
+library(ggplot2)
+
+dataset.BC2  <- dataset.BC  |>
+                 rename(
+                 Marital_status_at_diagnosis = 'Marital status at diagnosis', 
+                 AJCC_Stage_Group = 'AJCC Stage Group', 
+                 Histologic_Type = 'Histologic Type', 
+                 AJCC_T_Stage = 'AJCC T Stage', 
+                 AJCC_N_Stage = 'AJCC N Stage', 
+                 Months_from_diagnosis_to_treatment = 'Months from diagnosis to treatment', 
+                 Survival_months = 'Survival months')
+
+dataset.BC2 %>%  
+  dplyr::select(Survival_months,Status, Age, Marital_status_at_diagnosis,Race,Radiation,Chemotherapy,Surgery,AJCC_Stage_Group,Histologic_Type,Laterality,Grade,AJCC_T_Stage,AJCC_N_Stage,Months_from_diagnosis_to_treatment,Status.) %>%
+  tbl_uvregression(
+    method = coxph,
+    y = Surv(time = Survival_months, event = Status. == 'dead'),
+    exponentiate = TRUE,
+    pvalue_fun = ~style_pvalue(.x, digits = 3)
+  ) %>%
+  as_gt()
+```
+
+These variables were then included in the multi-variate Cox regression model. It is worth mentioning that AJCC stage group corresponds to the AJCC T stage and N stage of tumor stage categorization. Thus, only T stage and N stage classifications were included in multivariate analysis. Based on the multivariate analysis, I found that age ≥70 years (P \<0.001), unmarried status (P = 0.02), higher T stage (P \<0.001), higher N stage (P \<0.001), no surgery(P \<0.001), no/unknown radiation(P \<0.001), no/unknown chemothrapy(P \<0.001), and \<1 month from diagnosis to treatment(P = 0.019), were regarded as the independent risk factors of OS in these non-metastatic TNBC patients.
+
+```{r}
+library(forestplot)
+library(survminer)
+
+mveregression <- 
+  coxph(Surv(time = Survival_months, 
+             event = Status. == 'dead') ~ Age + Radiation + Chemotherapy + Surgery + Marital_status_at_diagnosis + Histologic_Type + AJCC_T_Stage + AJCC_N_Stage + Laterality + Grade + Months_from_diagnosis_to_treatment, 
+        data = dataset.BC2)
+tbl_regression(mveregression) %>%
+  as_gt()
+
+summary_mveregression <- summary(mveregression)
+forest_data <- data.frame(
+  HR = summary_mveregression$coef[, "exp(coef)"],
+  lower = summary_mveregression$coef[, "exp(coef)"] - 1.96 * summary_mveregression$coef[, "se(coef)"],
+  upper = summary_mveregression$coef[, "exp(coef)"] + 1.96 * summary_mveregression$coef[, "se(coef)"],
+  variable = row.names(summary_mveregression$coef)
+)
+forestplot(
+  mean = forest_data$HR,
+  lower = forest_data$lower,
+  upper = forest_data$upper,
+  label = forest_data$variable,
+   zero = 1,
+             cex  = 2,
+             lineheight = "auto",
+  is.summary = c(TRUE, rep(FALSE, nrow(forest_data) - 1)),
+  clip = c(0.01, 8),  # Adjust the range of the x-axis
+  title = "Forest Plot for Cox Proportional Hazards Model"
+)
+```
+
+Describe your results and include relevant tables, plots, and code/comments used to obtain them. End with a brief conclusion of your findings related to the question you set out to address. You can include references if you'd like, but this is not required.
