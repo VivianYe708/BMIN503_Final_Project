@@ -7,7 +7,7 @@ Machine Learning Based Survival Prediction in Non-metastatic Triple Negative Bre
 
 **Author Information**
 
-Name: Wenyuan Ye; 
+Name: Wenyuan(Vivian) Ye; 
 Institution: School of Medicine, University of Pennsylvania; 
 Email: YeWen@pennmedicine.upenn.edu
 
@@ -31,7 +31,9 @@ The findings of this study suggested that the GBM model is a trustful and effica
 
 Triple negative breast cancer, Overall survival, SEER database, Machine learning, Gradient Boosting, Logistic Regression, Random Forest, Decision Tree
  
+**Files in my repo**
 
+README.md, final_project_Ye.qmd file, and final_project_Ye.html file.
 
 <!-- Links -->
 [forking]: https://guides.github.com/activities/forking/
