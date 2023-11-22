@@ -21,9 +21,9 @@ A total of 5062 female patients with non-metastatic TNBC were extracted from the
 
 **Results**
 
-Six variables, including age, radiation, chemotherapy, surgery, AJCC T stage and AJCC N stage, were identified as the independent prognostic factors of patients with non-metastatic TNBC during follow-up. AJCC T and N features derived from AJCC staging and age over 70 years are the most important factors in the four models and showed the greatest impact in predicting long-term survival. GBM exhibited the best performance over the other three models, supported by an internal validation cohort with AUC of 0.681 and 0.685 for 3- and 5-year mortality, respectively.
+Six variables, including age, radiation, chemotherapy, surgery, AJCC T stage and AJCC N stage, were identified as the independent prognostic factors of patients with non-metastatic TNBC during follow-up. AJCC T and N features derived from AJCC staging and age over 70 years turned to be the most important factors in the four models, showing the greatest impact in predicting long-term survival. GBM exhibited the best performance over the other three models, supported by an internal validation cohort with AUC of 0.681 and 0.685 for 3- and 5-year mortality, respectively.
 
-**conclusion**
+**Conclusion**
 
 The findings of this study suggested that the GBM model is a trustful and efficacious model to predict the survival outcomes of TNBC patients. It has the potential to help clinicians better distinguish TNBC patients with high risk and devise better-individualized management plans with relatively more aggressive treatment approaches. However, the models created in this study have yet to be confirmed in the external validation cohort.
 
