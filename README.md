@@ -1,17 +1,36 @@
 # BMIN503/EPID600 Final Project
+**About my project:**
 
-This repository contains templates for your final written report and GitHub repository. Follow the instructions below to clone this repository, and then turn in your final project's code via a pull request to this repository.
+**Project Title**
 
-1. To start, **fork** this BMIN503_Final_Project repository.
-1. **Clone** the forked repository to your computer.
-1. Modify the files provided, add your own, and **commit** changes to complete your final project.
-1. **Push**/sync the changes up to your GitHub account.
-1. Create a **pull request** on this, the original BMIN503_Final_Project, repository to turn in your final project.
+Machine Learning Based Survival Prediction in Non-metastatic Triple Negative Breast Cancer Using SEER Database
 
+**Author Information**
 
-Follow the instructions [here][forking] if you are unsure what the above steps mean.
+Name: Wenyuan Ye; 
+Institution: School of Medicine, University of Pennsylvania; 
+Email: YeWen@pennmedicine.upenn.edu
 
-DUE DATE FOR FINAL VERSION: 12/13/23 11:59PM. This is a hard deadline. Turn in whatever you have by this date.
+**Objective**
+
+Breast cancer(BC) is the second most commonly diagnosed cancer in women in the United States, and the primary cause of death among women worldwide. The ability to estimate prognosis is crucial for both patients and providers in order to select the most appropriate treatment. However, few researches using machine learning to study TNBC prognosis have been conducted, and few prediction models have been compared and validated. This project aimed to analyze the prognostic factors of patients with non-metastatic triple negative breast cancer (TNBC) and to construct and compare prediction models for forecasting the 3-, and 5-year overall survival (OS) based on machine learning.
+
+**Methodology**
+
+A total of 5062 female patients with non-metastatic TNBC were extracted from the Surveillance, Epidemiology, and End Results (SEER) database and patient demographics and clinical characteristics were gathered. Univariate and multivariate Cox regression analysis were used to identify the independent risk variables for the OS of patients. These selected variables were then estimated through the Kaplan–Meier (KM) curves using the log rank test. Four models, including Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and Gradient Boosting Machine(GBM), for predicting the 3-, and 5-year OS were constructed by using 10-fold cross-validations,validated and compared by performing receiver operating characteristics (ROC) curves with area under the receiver operating characteristic curves (AUC).
+
+**Results**
+
+Six variables, including age, radiation, chemotherapy, surgery, AJCC T stage and AJCC N stage, were identified as the independent prognostic factors of patients with non-metastatic TNBC during follow-up. AJCC T and N features derived from AJCC staging and age over 70 years are the most important factors in the four models and showed the greatest impact in predicting long-term survival. GBM exhibited the best performance over the other three models, supported by an internal validation cohort with AUC of 0.681 and 0.685 for 3- and 5-year mortality, respectively.
+
+**conclusion**
+
+The findings of this study suggested that the GBM model is a trustful and efficacious model to predict the survival outcomes of TNBC patients. It has the potential to help clinicians better distinguish TNBC patients with high risk and devise better-individualized management plans with relatively more aggressive treatment approaches. However, the models created in this study have yet to be confirmed in the external validation cohort.
+
+**Keywords**
+
+Triple negative breast cancer, Overall survival, SEER database, Machine learning, Gradient Boosting, Logistic Regression, Random Forest, Decision Tree
+ 
 
 
 <!-- Links -->
