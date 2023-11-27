@@ -141,7 +141,7 @@ dataset.BC <- dataset |>
 
 ### Patient Characteristics
 
-The summary of both sociodemographic and clinical data of selected patients was shown in @tbl-1 . Overall, 5,062 eligible patients with a diagnosis of non-metastatic TNBC were enrolled in this study. The histological distribution of enrolled patients was: invasive ductal carcinoma(IDC) 4,307 (85%), invasive lobular carcinoma(ILC) 123 (2.4%), mixed invasive ductal and lobular carcinoma (IDLC) 101 (2.0%), and other types 531 (10%). At the time of the analysis, 2,126 (42%) of total patients received radiation, 3,662 (72%) received chemotherapy, and 4,680 (92%) received surgery of primary tumor. The median survival time was 41 months. The 3-year OS rate for total patients was 55%, and 5-year OS rate was 37%.
+The summary of both sociodemographic and clinical data of selected patients was shown in @tbl-1 . Overall, 5,062 eligible patients with a diagnosis of non-metastatic TNBC were enrolled in this study. The histological distribution of enrolled patients was: invasive ductal carcinoma(IDC) 4,307 (85%), invasive lobular carcinoma(ILC) 123 (2.4%), mixed invasive ductal and lobular carcinoma (IDLC) 101 (2.0%), and other types 531 (10%). At the time of the analysis, 2,126 (42%) of total patients received radiation, 3,662 (72%) received chemotherapy, and 4,677 (92%) received surgery of primary tumor. The median survival time was 41 months. The 3-year OS rate for total patients was 55%, and 5-year OS rate was 37%.
 
 ```{r}
 #| label: tbl-1
@@ -655,6 +655,8 @@ var_importance <- vip(tree_fit2)
 print(var_importance)
 ```
 
+For GBM model, the logarithmic loss function was minimized at a number of 248 as shown in the figure below. From this, the "n.trees" parameter is determined and the model is then iteratively tested and adjusted to confirm other main hyperparameters to obtain the best model.
+
 ```{r}
 set.seed(123) 
 gbm2 <- gbm(
@@ -692,7 +694,7 @@ var_importance <- vip(gbm.best2)
 print(var_importance)
 ```
 
-According to the performances of selected models based on 10-fold cross validation, GBM model turned out to the best performing model in predicting 5-year OS in non-metastatic TNBC patients as well. It achieved an AUC of 0.685 with a RMSE of 0.464 for predicting 5-year OS, higher than LR, RF and DT models.
+According to the performances of selected models based on 10-fold cross validation, GBM model turned out to the best performing model in predicting 5-year OS in non-metastatic TNBC patients as well. It achieved an AUC of 0.683 with a RMSE of 0.464 for predicting 5-year OS, higher than LR, RF and DT models.
 
 ```{r}
 roc5 <- roc(collect_predictions(logreg_fit_cv2),OS_5year,.pred_alive)
@@ -719,11 +721,11 @@ legend("bottomright",legend=c("LR","RF","DT","GBM"),col=c("black","red","blue","
 
 ```
 
-ROC curves of four models for 5-year mortality prediction for all patients were created. The AUC values of the ROC curves were 0.667, 0.641, 0.636 and 0.685 for LR, RF, DT and GBM, respectively.
+ROC curves of four models for 5-year mortality prediction for all patients were created. The AUC values of the ROC curves were 0.667, 0.641, 0.636 and 0.683 for LR, RF, DT and GBM, respectively.
 
 ## Discussion and Conclusion
 
-In this study, I examined the independent prognostic factors for OS in non-metastatic TNBC women and developed and validated machine learning models to predict TNBC prognosis. The analysis identified six variables, including age, radiation, chemotherapy, surgery, AJCC T stage, and AJCC N stage, as independent prognostic factors in predicting long-term OS in non-metastatic TNBC patients. Based on these variables, I successfully established four different models, Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and gradient boosting(GBM) for predicting the 3- and 5- year OS in selected patient cohort using 10-fold cross-validation. Results showed that GBM outperformed the other models, attaining an AUC of 0.681 for predicting 3-year mortality, and an AUC of 0.685 for predicting 5-year mortality. The study's findings provide evidence indicating that the GBM model is a reliable and efficacious tool for predicting cancer patient survival. I believe the results of the study could help clinicians better distinguish triple-negative breast cancer patients with high risk and devise better-individualized management plans with relatively more aggressive treatment approaches.
+In this study, I examined the independent prognostic factors for OS in non-metastatic TNBC women and developed and validated machine learning models to predict TNBC prognosis. The analysis identified six variables, including age, radiation, chemotherapy, surgery, AJCC T stage, and AJCC N stage, as independent prognostic factors in predicting long-term OS in non-metastatic TNBC patients. Based on these variables, I successfully established four different models, Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and gradient boosting(GBM) for predicting the 3- and 5- year OS in selected patient cohort using 10-fold cross-validation. Results showed that GBM outperformed the other models, attaining an AUC of 0.681 for predicting 3-year mortality, and an AUC of 0.683 for predicting 5-year mortality. The study's findings provide evidence indicating that the GBM model is a reliable and efficacious tool for predicting cancer patient survival. I believe the results of the study could help clinicians better distinguish triple-negative breast cancer patients with high risk and devise better-individualized management plans with relatively more aggressive treatment approaches.
 
 In addition to the models described in the main body, Kaplan-Meier survival curves were constructed for patient subgroups divided by potential risk factors. Patients who underwent radiation, chemotherapy, or surgery demonstrated a superior response to prolonged survival in comparison to those who did not undergo these treatments. The importance score of each variable showed that features derived from the AJCC staging exhibited the greatest impact in predicting prolonged survival. The AJCC T stage indicates the size of the primary tumor and correlates with an increased risk of decreased survival time as the tumor size increases. The AJCC N stage indicates the number of lymph nodes impacted by cancer, with a higher AJCC N stage indicating a greater risk of decreased survival time.
 
