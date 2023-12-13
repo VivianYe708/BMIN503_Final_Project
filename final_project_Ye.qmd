@@ -20,21 +20,21 @@ execute:
 
 ## Overview
 
-This project aimed to provide population-based prognostic analysis and investigate the independent prognostic factors for overall survival(OS) in non-metastatic triple negative breast cancer (TNBC) patients using data extracted from the Surveillance, Epidemiology,and End Results (SEER) database. It further constructed and validated prediction models for patient prognosis using machine learning and presented a comparative analysis of four different models, Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and Gradient Boosting Machine(GBM). The findings of the project provided a tool to predict survival outcomes of patients with non-metastatic TNBC and contributed to the improvement of individualized treatment and long-term follow-up for these patients.
+This project aimed to provide population-based prognostic analysis in non-metastatic triple negative breast cancer(TNBC) patients using data extracted from the Surveillance, Epidemiology,and End Results (SEER) database. It first investigated the independent prognostic factors for patient overall survival(OS). Then it constructed and validated prediction models for patient prognosis using machine learning, and presented a comparative analysis of four different models, Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and Gradient Boosting Machine(GBM). The findings of the project provided a tool to predict survival outcomes of patients with non-metastatic TNBC and contributed to the improvement of individualized treatment and long-term follow-up for these patients. [Link to my final project GitHub Repo](https://github.com/VivianYe708/BMIN503_Final_Project)
 
 ## Introduction
 
-Breast cancer(BC) is the second most commonly diagnosed cancer in women in the United States, excluding skin cancers \[1\]. Moreover, it is the primary cause of death among women worldwide \[2\]. Breast cancer death rates in the US. have been decreasing steadily since 1989, owing to the early detection of breast cancer and enhanced awareness, along with improved medications. However, this decline has shown a slight decrease in recent years \[3\]. TNBC is a type of breast cancer characterized by negative estrogen receptor, progesterone receptor, and human epidermal growth factor receptor. TNBC generally exhibits more aggressive behavior, a higher likelihood of recurrence, and a worse prognosis \[4\]. Recurrence-free survival and overall survival rates are low for TNBC patients, as they are resistant to endocrine therapy and molecular-targeted therapy, and most rely on chemotherapy \[5\]. Identifying non-metastatic TNBC patients who remain at high risk of death has been a primary focus of researchers attempting to curtail TNBC mortality. The predictive analysis of TNBC patients can provide reference for evaluating clinical patients to determine surgical methods and develop adjuvant therapies, as well as support the development of individualized treatment plans.
+Breast cancer(BC) is the second most commonly diagnosed cancer in women in the United States, excluding skin cancers \[1\]. Moreover, it is the primary cause of death among women worldwide \[2\]. The death rate of BC in the U.S. has been decreasing steadily since 1989, owing to the early detection and enhanced awareness, along with advanced treatments. However, this decline has shown a slight decrease in recent years \[3\]. TNBC is a type of breast cancer characterized by negative estrogen receptor, progesterone receptor, and human epidermal growth factor receptor. TNBC generally exhibits more aggressive behavior, a higher likelihood of recurrence, and a worse prognosis \[4\]. Recurrence-free survival(RFS) and overall survival(OS) rates are both low for TNBC patients, as they are resistant to endocrine therapy and molecular-targeted therapy, and most rely on chemotherapy \[5\]. Identifying non-metastatic TNBC patients who remain at high risk of death has been a primary focus of researchers attempting to curtail TNBC mortality. The predictive analysis of TNBC patients can provide reference for evaluating clinical patients to determine surgical methods and develop adjuvant therapies, as well as support the development of individualized treatment plans.
 
-With the advent of the era of big data, professional medical information has been integrated into large datasets, fostering the integration of machine learning methods within the medical industry. Presently, machine learning serves as a valuable tool for analyzing complex datasets and predicting risks and survival rates for cancer patients, which results in a significant increase in accuracy rates \[6\]. However, machine learning algorithms have limitations that require practical improvement. For instance, support vector machines (SVM) struggle with processing large numbers samples and variables, K-nearest neighbors (KNN) are not easily interpretable, and decision trees (DF) are quick to train yet not adequately complex \[7\]. Conversely, Gradient Boosting Machine (GBM) is created iteratively to realize loss-function minimization, which allows for superior performance in various fields \[8-10\]. Nevertheless, clinical patient prognosis prediction rarely applies it. Only a few studies have been conducted using machine learning to study TNBC prognosis, and few prediction models have been compared and validated. Therefore, a more accurate and powerful prognosis prediction model based on machine learning is needed for TNBC patients.
+With the advent of the big data era, professional medical information has been integrated into large datasets, fostering the integration of machine learning methods within the medical industry. Presently, machine learning has been served as a valuable tool for analyzing complex datasets and predicting risks and survival rates for cancer patients, resulting in a significant increase in accuracy rates \[6\]. However, machine learning algorithms have some limitations that require practical improvement. For instance, support vector machines (SVM) struggle with processing large numbers samples and variables, K-nearest neighbors (KNN) are not easily interpretable, and decision trees (DF) are quick to train yet not adequately complex \[7\]. Conversely, Gradient Boosting Machine (GBM) is developed iteratively to achieve loss-function minimization, which allows for superior performance in various fields \[8-10\]. Nevertheless, it is rarely applied to clinical patient prognosis prediction. Few studies have been conducted using machine learning to study TNBC prognosis, and few prediction models have been compared and validated. Therefore, a more accurate and powerful prognosis prediction model based on machine learning is needed for TNBC patients.
 
 ## Methods
 
 ### **Data source and patient selection**
 
-The Surveillance, Epidemiology, and End Results (SEER) database is one of the most comprehensive and complete large-scale tumor registries in North America, gathering a vast quantity of evidence-based and medicine related data with an approximate coverage of one-third of the U.S. population \[11\]. In this study, I used SEER\*Stat version 8.3.8 to generate a case list. I enrolled patients according to the following inclusion criteria: female; year of diagnosis from 2010 to 2020; age of diagnosis≥70 years; breast carcinoma as the only primary malignant cancer diagnosis; American Joint Committee on Cancer (AJCC) 7th edition stage I-III; triple negative subtype. Patients who present with distant metastasis, in situ disease,unknown race, unknown tumor stage and unknown laterality were expelled from this study. Patient sociodemographic and clinical characteristics were gathered, including age, race, marital status, surgery status, chemotherapy status, radiotherapy status, survival time, and months from diagnosis to treatment. Tumor characteristics were also collected, including grade, laterality, AJCC stage, histologic type, tumor size and nodal status. Enrolled patients were followed up until death, loss to follow-up or December 31, 2020.
+[The Surveillance, Epidemiology, and End Results (SEER) database](https://seer.cancer.gov/) is one of the most comprehensive and complete large-scale tumor registries in North America, gathering a vast quantity of evidence-based and medicine related data with an approximate coverage of one-third of the U.S. population \[11\]. In this study, I used [SEER\*Stat version 8.4.2](https://seer.cancer.gov/seerstat/) to generate a case list. I enrolled patients according to the following inclusion criteria: female; year of diagnosis from 2010 to 2020; breast carcinoma as the only primary malignant cancer diagnosis; American Joint Committee on Cancer (AJCC) 7th edition stage I-III; triple negative subtype. Patients who present with distant metastasis, in situ disease, unknown race, unknown tumor stage and unknown laterality were expelled from this study. Patient sociodemographic and clinical characteristics were gathered, including age, race, marital status, surgery status, chemotherapy status, radiotherapy status, survival time, cause of death, year of death, and months from diagnosis to treatment. Tumor characteristics were also collected, including grade, laterality, AJCC stage, histologic type, tumor size and nodal status. Enrolled patients were followed up until death, loss to follow-up or December 31, 2020.
 
-### Loading Packages
+### Loading packages
 
 ```{r}
 library(readxl)
@@ -65,15 +65,15 @@ library(caret)
 
 ### Data preprocessing
 
-Patient data that l would analyze was extracted from SEER 17 registries research database(2000-2020) following the above criteria and stored in the xlsx file "BC patients1.xlsx". The xlsx file of raw database in excel was imported. An overview of of the raw patients demographics and clinical data within the database was shown.
+Patient data that l would analyze was extracted from [Incidence-SEER Research Data, 17 Registries, Nov 22 Sub(2000-2020)](https://seer.cancer.gov/data-software/documentation/seerstat/nov2022/) according to the above criteria and stored in the xlsx file "BC_patients.xlsx". The xlsx file of raw database in excel was imported. An overview of the raw data of patients demographic and clinical characteristics within the database was shown.
 
 ```{r}
 setwd("c:/Upenn/datascience/FinalProject")
-dataset = read_xlsx("BC patients1.xlsx")
+dataset = read_xlsx("BC_patients.xlsx")
 str(dataset)
 ```
 
-Some information in the raw database were not related to this study. Therefore, the database was cleaned for better utilization. Columns related to the study were selected to facilitate further use. The age of selected patients was divided into six categories(\<40, 40-49, 50-59, 60-69, 70-79, and \>=80 years old). The marital status was classified as married, singled, divorced/widowed/other, and unknown, separately. Moreover, months from diagnosis to treatment was divided into two categories: 0 month, and \>=1 month.
+Some information in the raw database was not related to this study. Therefore, the database was cleaned for better use. The age of selected patients was divided into six categories(\<40, 40-49, 50-59, 60-69, 70-79, and \>=80 years old). Race was categorized separately as white, black, and other races. Marital status was classified separately as married, singled, divorced/widowed/other, and unknown. Moreover, the months from diagnosis to treatment was divided into two categories: 0 month, and \>=1 month.
 
 ```{r}
 dataset$Age = case_match(dataset$Age, 
@@ -83,6 +83,10 @@ dataset$Age = case_match(dataset$Age,
   c("60-64","65-69") ~ "60-69",
   c("70-74","75-79") ~ "70-79",
   c("80-84","85+")  ~ ">=80" ) 
+dataset$Race = case_match(dataset$Race, 
+  "White" ~ "White",
+  "Black" ~ "Black",
+  c("American Indian/Alaska Native","Asian or Pacific Islander") ~ "Other") 
 dataset$'Marital status at diagnosis' = case_match(dataset$'Marital status at diagnosis', 
   c("Divorced","Widowed","Separated","Unmarried or Domestic Partner") ~ "Divorced/widowed/other",
   "Single (never married)" ~ "Singled",
@@ -118,42 +122,41 @@ dataset$'AJCC N Stage' = case_match(dataset$'AJCC N Stage',
 dataset$'Months from diagnosis to treatment' <- as.numeric(dataset$'Months from diagnosis to treatment')|> case_match(
  0 ~ "0 month",
  1:18 ~ ">=1 month") 
-
 ```
 
-A new column of patient survival status named 'Status.' was created based on the column of 'Year of death recode'. The label of 'censored' means alive at last contact. New columns of patient 3-year OS status and 5-year OS status were created based on the column of 'Survival months'. Columns related to the study were selected to facilitate further use.
+A new column of patient survival status named 'SurvivalStatus' was created based on the column of 'Year of death recode'. The label of 'censored' means that patient is alive at last contact. Two new columns of patient 3-year OS status named 'OS_3year' and 5-year OS status named 'OS_5year' were created based on the columns of 'Survival months' and 'COD to site recode'(a recode based on underlying cause of death). Columns related to the study were selected to facilitate further use.
 
 ```{r}
 dataset.BC <- dataset |> 
   mutate(
-  Status.= ifelse(dataset$'Year of death recode' == "Alive at last contact","censored","dead"),
-  OS_5year = case_when((dataset$'Survival months' >= 60) ~ "alive",
-                       (dataset$'Survival months' < 60) ~ "dead"),
-  OS_3year = case_when((dataset$'Survival months' >= 36) ~ "alive",
-                       (dataset$'Survival months' < 36) ~ "dead")
-                      )|>
-  mutate_if(is.character,as.factor)  |>
-  select(Age,Sex,'Marital status at diagnosis',Race,Radiation,Chemotherapy,Surgery,'Histologic Type','Laterality',Grade,'AJCC Stage Group','AJCC T Stage','AJCC N Stage','Survival months','Months from diagnosis to treatment',Status.,OS_3year,OS_5year)
-
+  SurvivalStatus = ifelse(dataset$'Year of death recode' == "Alive at last contact","censored","dead"),
+   OS_3year = case_when((dataset$'Survival months' < 36 & dataset$'COD to site recode' != "Alive") ~ "dead",
+                      .default = "censored"),
+   OS_5year = case_when((dataset$'Survival months' < 60 & dataset$'COD to site recode' != "Alive") ~ "dead",
+                      .default = "censored")
+       )|>
+  select(Age,Sex,'Marital status at diagnosis',Race,Radiation,Chemotherapy,Surgery,'Histologic Type','Laterality',Grade,'AJCC Stage Group','AJCC T Stage','AJCC N Stage','Survival months','Months from diagnosis to treatment',SurvivalStatus,OS_5year,OS_3year) |>
+  mutate_if(is.character,as.factor) 
 ```
 
 ## Results
 
-### Patient Characteristics
+### Patient characteristics
 
-The summary of both sociodemographic and clinical data of selected patients was shown in @tbl-1 . Overall, 5,062 eligible patients with a diagnosis of non-metastatic TNBC were enrolled in this study. The histological distribution of enrolled patients was: invasive ductal carcinoma(IDC) 4,307 (85%), invasive lobular carcinoma(ILC) 123 (2.4%), mixed invasive ductal and lobular carcinoma (IDLC) 101 (2.0%), and other types 531 (10%). At the time of the analysis, 2,126 (42%) of total patients received radiation, 3,662 (72%) received chemotherapy, and 4,677 (92%) received surgery of primary tumor. The median survival time was 41 months. The 3-year OS rate for total patients was 55%, and 5-year OS rate was 37%.
+The summary of both sociodemographic and clinical characteristics of selected patients was shown in @tbl-1 . Overall, a total of 5,058 eligible patients with a diagnosis of non-metastatic TNBC were enrolled in this study. The histological distribution of enrolled patients was: invasive ductal carcinoma(IDC) 4,304 (85%), invasive lobular carcinoma(ILC) 123 (2.4%), mixed invasive ductal and lobular carcinoma (IDLC) 101 (2.0%), and other types 531 (10%). At the end of follow-up, 2,124 (42%) of total patients received radiation, 3,658 (72%) received chemotherapy, and 4,674 (92%) received surgery of primary tumor. The median survival time was 41 months. The 3-year OS rate for total patients was 78%, and the 5-year OS rate was 71%.
 
 ```{r}
 #| label: tbl-1
 #| tbl-cap: "Baseline characteristics of patients"
-
-tbl_summary(dataset.BC)|>
+dataset.BC |>
+  mutate(Age = factor(Age, levels = c("<40", "40-49", "50-59", "60-69","70-79",">=80"))) |>
+  tbl_summary(sort= c('Marital status at diagnosis', Race) ~ "frequency")|>
   bold_labels() 
 ```
 
 ### Correlation analysis of various factors
 
-A heat map was given below to represent patients data in this study. The colors indicated the correlation of different patient characteristics and patient survival status. The value of the correlation coefficient was shown between each possible pair of features. We could see in @fig-1 , higher positive correlations between survival status(both 3-year and 5-year) and tumor grade, AJCC stage group, AJCC T stage, as well as AJCC N stage.
+A heat map was given below to represent patient data in this study. Darker color indicated higher correlations between different features in this study. The value of the correlation coefficient was shown between each possible pair of features. We could see in @fig-1 that higher positive correlations existed between survival status(both 3-year and 5-year) and AJCC stage group, AJCC T stage, as well as AJCC N stage.
 
 ```{r}
 #| label: fig-1
@@ -168,7 +171,7 @@ dataset.BC2 <- dataset.BC  |>
                  AJCC_N_Stage = 'AJCC N Stage', 
                  Months_from_diagnosis_to_treatment = 'Months from diagnosis to treatment', 
                  Survival_months = 'Survival months') |>
-       select(Survival_months, Age, Marital_status_at_diagnosis,Race,Radiation,Chemotherapy,Surgery,AJCC_Stage_Group,Histologic_Type,Laterality,Grade,AJCC_T_Stage,AJCC_N_Stage,Months_from_diagnosis_to_treatment,Status.,OS_3year,OS_5year) 
+       select(Survival_months, Age, Marital_status_at_diagnosis,Race,Radiation,Chemotherapy,Surgery,AJCC_Stage_Group,Histologic_Type,Laterality,Grade,AJCC_T_Stage,AJCC_N_Stage,Months_from_diagnosis_to_treatment,SurvivalStatus,OS_3year,OS_5year) 
 
 categorical_vars <- sapply(dataset.BC2, is.factor)
 dataset.BC2.ca <- lapply(dataset.BC2[, categorical_vars], function(x) ifelse(is.na(x), "Missing", x)) |>
@@ -182,32 +185,36 @@ melted_corr_mat <- melt(corr_mat)
 ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2,
                                    fill=value)) +
 geom_tile() +
+scale_fill_gradient(low = "cyan", high = "darkblue", na.value = NA)+
 geom_text(aes(Var1,Var2,label = value),
           size = 2,
           color = "white") +
 theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
 ```
 
-### Univariate and Multivariate Analyses of the Risk Factors of OS
+### Univariate and multivariate analyses of the risk factors of OS
 
-A Cox univariate survival analysis was performed for each variable to analyze the relationship between various clinical and pathological characteristics and patient survival status. As demonstrated in @tbl-2 , the Cox univariate regression results differentiated twelve variables (age, marital status, surgery, chemotherapy, radiation, AJCC stage group, AJCC T stage, AJCC N stage, historic type, grade, laterality of tumor, and months from diagnosis to treatment) that were significantly associated with OS(P\<0.05).
+Cox univariate survival analysis was performed for each variable to analyze the relationship between various clinical and pathological characteristics and patient survival status. As demonstrated in @tbl-2 , the Cox univariate regression results differentiated twelve variables (age, race, marital status, surgery, chemotherapy, radiation, AJCC stage group, AJCC T stage, AJCC N stage, histologic type, grade, and months from diagnosis to treatment) that were significantly associated with survival time (P\<0.05).
 
 ```{r}
 #| label: tbl-2
 #| tbl-cap: "Univariate COX analyses of patient characteristics"
+#change the reference category in regression
+dataset.BC2$Marital_status_at_diagnosis = factor(dataset.BC2$Marital_status_at_diagnosis, levels = c("Married", "Divorced/widowed/other", "Singled", "Unknown")) 
+dataset.BC2$Race = factor(dataset.BC2$Race, levels = c("White", "Black", "Other"))
 
-dataset.BC2 |> 
-    select(Survival_months, Age, Marital_status_at_diagnosis,Race,Radiation,Chemotherapy,Surgery,AJCC_Stage_Group,Histologic_Type,Laterality,Grade,AJCC_T_Stage,AJCC_N_Stage,Months_from_diagnosis_to_treatment,Status.) |>
+dataset.BC2  |> 
+    select(Survival_months, Age, Marital_status_at_diagnosis,Race,Radiation,Chemotherapy,Surgery,AJCC_Stage_Group,Histologic_Type,Laterality,Grade,AJCC_T_Stage,AJCC_N_Stage,Months_from_diagnosis_to_treatment,SurvivalStatus) |>
   tbl_uvregression(
     method = coxph,
-    y = Surv(time = Survival_months, event = Status. == 'dead'),
+    y = Surv(time = Survival_months, event = SurvivalStatus == 'dead'),
     exponentiate = TRUE,
-    pvalue_fun = ~style_pvalue(.x, digits = 3)
-  ) |>
+    pvalue_fun = ~style_pvalue(.x, digits = 3) ) |> 
+  bold_labels() |> 
   as_gt()  
 ```
 
-These variables were then included in the multivariate Cox regression model. It was worth mentioning that AJCC stage group corresponded to the AJCC T stage and N stage of tumor stage categorization. Thus, only AJCC T stage and N stage classifications were included in multivariate analysis. Based on the multivariate analysis in @tbl-3 , I found seven variables, including age ≥70 years (P \<0.001), higher T stage (P \<0.001), higher N stage (P \<0.001), no surgery(P \<0.001), no/unknown radiation(P \<0.001), no/unknown chemothrapy(P \<0.001), and \<1 month from diagnosis to treatment(P = 0.019), were independent risk variables in the poor prognosis of non-metastatic TNBC patients. The forest plot illustrated the multivariable Cox regression analysis with these independent risk variables.
+These variables were then included in the multivariate Cox regression model. It should be noted that AJCC stage group corresponds to the AJCC T stage and N stage of tumor stage categorization. Therefore, only AJCC T stage and N stage classifications were included in the multivariate analysis. Based on the results of multivariate analysis in @tbl-3 , I found eight variables, including age ≥70 years (P \<0.001), white race(vs. other races) (P =0.006), higher T stage (P \<0.001), higher N stage (P \<0.001), no/unknown surgery (P \<0.001), no/unknown radiation (P \<0.001), no/unknown chemotherapy (P \<0.001), and 0 month from diagnosis to treatment (P = 0.023), were independent risk variables in the poor prognosis of non-metastatic TNBC patients. The forest plot illustrated the results of multivariable Cox regression analysis of these independent risk variables.
 
 ```{r}
 #| label: tbl-3
@@ -215,9 +222,10 @@ These variables were then included in the multivariate Cox regression model. It 
 
 mveregression <- 
   coxph(Surv(time = Survival_months, 
-             event = Status. == 'dead') ~ Age + Radiation + Chemotherapy + Surgery + Marital_status_at_diagnosis + Histologic_Type + AJCC_T_Stage + AJCC_N_Stage + Laterality + Grade + Months_from_diagnosis_to_treatment, 
+             event = SurvivalStatus == 'dead') ~ Age + Race + Radiation + Chemotherapy + Surgery + Marital_status_at_diagnosis + Histologic_Type + AJCC_T_Stage + AJCC_N_Stage + Grade + Months_from_diagnosis_to_treatment, 
              data = dataset.BC2)
-tbl_regression(mveregression) |>
+tbl_regression(mveregression, exponentiate = TRUE) |>
+  bold_labels() |> 
   as_gt() 
 
 summary_mveregression <- summary(mveregression)
@@ -240,12 +248,12 @@ forestplot(
 ) 
 ```
 
-### Kaplan--Meier survival curves of the Risk Factors of OS
+### Kaplan--Meier survival curves of the risk factors of OS
 
-Furthermore, to actuarially estimate the survival probability in non-metastatic TNBC patients with different potential risk factors, I used the seven variables (p \< 0.05) obtained from the multivariate analysis in Cox regression model above to plot the Kaplan--Meier survival curves. As shown in Figure 2, age(P \<0.0001), radiation(P \<0.00032), chemotherapy(P \<0.0001), surgery(P \<0.0001), AJCC T stage(P \<0.0001), AJCC N stage(P \<0.0001), and \<1 month from diagnosis to treatment(P = 0.0045) were all associated with the cumulative survival probability. However, a paradoxical effect was seen for patient groups with different time from diagnosis to treatment: survival was better in patients with longer time-to-treatment(\>= 1 month), which indicated a complex association between time-to-treatment and survival. This complex association was probably confounded by unmeasured patient and tumor-specific factors, and hospital related factors. In addition, patients with more advanced diseases presenting with severe signs and symptoms seem to receive treatment more promptly compared with fitter patients.
+Furthermore, to accurately estimate the survival probability in different patient subgroups with different potential risk factors, I used the eight variables (p \< 0.05) obtained from the multivariate Cox regression model above to plot the Kaplan--Meier survival curves. As shown in K-M survival curves, age (P \< 0.0001), race (P = 0.022), radiation (P = 0.00034), chemotherapy (P \< 0.0001), surgery (P \< 0.0001), AJCC T stage (P \< 0.0001), AJCC N stage (P \< 0.0001), and \<1 month from diagnosis to treatment (P = 0.0043) were all significantly associated with the cumulative survival probability. However, a paradoxical effect was observed for patient groups with different time from diagnosis to treatment: survival was better in patients with longer time to treatment(\>= 1 month), suggesting a complex association between time to treatment and survival. This association was probably confounded by unmeasured patients, tumor-specific factors, or hospital-related factors. In addition, patients with more advanced diseases presenting with severe signs and symptoms seem to receive treatment more promptly compared with fitter patients.
 
 ```{r}
-Age.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ Age, data = dataset.BC2)
+Age.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ Age, data = dataset.BC2)
 ggsurvplot(
    Age.fit,                 # survfit object with calculated statistics.
    data = dataset.BC2,   
@@ -254,7 +262,7 @@ ggsurvplot(
    conf.int = TRUE,         # show confidence intervals for point estimates of survival curves.
    xlim = c(0,130),         # present narrower X axis, but not affect survival estimates.
    xlab = "Time(months)",   # customize X axis label.
-   break.time.by = 20,      # break X axis in time intervals by 500.
+   break.time.by = 20,      # break X axis in time intervals by 20.
    ggtheme = theme_light(), # customize plot and risk table with a theme.
    risk.table.height = 0.4,
    title = "Kaplan–Meier survival curves for different age groups"
@@ -262,7 +270,24 @@ ggsurvplot(
 ```
 
 ```{r}
-Radiation.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ Radiation, data = dataset.BC2)
+Race.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ Race, data = dataset.BC2)
+ggsurvplot(
+   Race.fit,                 
+   data = dataset.BC2,   
+   risk.table = TRUE, 
+   pval = TRUE,            
+   conf.int = TRUE,        
+   xlim = c(0,130),        
+   xlab = "Time(months)", 
+   break.time.by = 20,      
+   ggtheme = theme_light(),
+   risk.table.height = 0.3,
+   title = "Kaplan–Meier survival curves for different race groups"
+)
+```
+
+```{r}
+Radiation.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ Radiation, data = dataset.BC2)
 ggsurvplot(
    Radiation.fit,                    
    data = dataset.BC2,             
@@ -279,7 +304,7 @@ ggsurvplot(
 ```
 
 ```{r}
-Chemotherapy.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ Chemotherapy, data = dataset.BC2)
+Chemotherapy.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ Chemotherapy, data = dataset.BC2)
 ggsurvplot(
    Chemotherapy.fit,                     
    data = dataset.BC2,  
@@ -296,7 +321,7 @@ ggsurvplot(
 ```
 
 ```{r}
-Surgery.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ Surgery, data = dataset.BC2)
+Surgery.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ Surgery, data = dataset.BC2)
 ggsurvplot(
    Surgery.fit,                    
    data = dataset.BC2,  
@@ -313,7 +338,7 @@ ggsurvplot(
 ```
 
 ```{r}
-AJCC_T_Stage.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ AJCC_T_Stage, data = dataset.BC2)
+AJCC_T_Stage.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ AJCC_T_Stage, data = dataset.BC2)
 ggsurvplot(
    AJCC_T_Stage.fit,                    
    data = dataset.BC2,  
@@ -330,7 +355,7 @@ ggsurvplot(
 ```
 
 ```{r}
-AJCC_N_Stage.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ AJCC_N_Stage, data = dataset.BC2)
+AJCC_N_Stage.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ AJCC_N_Stage, data = dataset.BC2)
 ggsurvplot(
    AJCC_N_Stage.fit,                    
    data = dataset.BC2,
@@ -347,9 +372,9 @@ ggsurvplot(
 ```
 
 ```{r}
-Months_from_diagnosis_to_treatment.fit <- survfit(Surv(time = Survival_months,event = Status. == 'dead') ~ Months_from_diagnosis_to_treatment, data = dataset.BC2)
+Time_to_treatment.fit <- survfit(Surv(time = Survival_months,event = SurvivalStatus == 'dead') ~ Months_from_diagnosis_to_treatment, data = dataset.BC2)
 ggsurvplot(
-   Months_from_diagnosis_to_treatment.fit,                    
+   Time_to_treatment.fit,                    
    data = dataset.BC2,   
    risk.table = TRUE, 
    pval = TRUE,             
@@ -362,7 +387,7 @@ ggsurvplot(
 )
 ```
 
-### Predictive Models Construction and Validation
+### Predictive models construction and validation
 
 Before building machine learning models, all patients were randomly divided into 2 sets, a training set and a testing set, at a 8:2 ratio. 10-fold cross validation classification sets were obtained for model development. 
 
@@ -375,14 +400,14 @@ dataset.BC3 <- dataset.BC2 |>
 
 set.seed(1234)
 dataset.BC.split <- initial_split(dataset.BC3, 
-                            strata = Status., 
+                            strata = SurvivalStatus, 
                             prop = 0.80)
 dataset.BC.train <- training(dataset.BC.split)
 dataset.BC.test <- testing(dataset.BC.split)
 dataset.training.folds <- vfold_cv(dataset.BC.train, v = 10)
 ```
 
-Based on the results of multivariate Cox regression analysis and Kaplan--Meier survival curves, six variables, including age, radiation, chemotherapy, surgery, AJCC T stage, and AJCC N stage, were screened out for establishing prognosis models. Logistic Regression (LR), Decision Tree (DT), Random Forest (RF), and Gradient Boosting Machine (GBM) models were developed using 10-fold cross-validations, to predict the 3-year and 5-year OS. Receiver operating characteristic (ROC) analysis was used for the evaluation of the performances of these models. For LR, DT, and RF models, the values of area under the ROC curve (AUC) and accuracy were calculated for both cross-validations and testing dataset. For the GBM regression model, Mean Squared Error (MSE), Root Mean Squared Error (RMSE) and AUC value were used as the evaluation metrics. The importance of each predictor was evaluated individually by ranking each feature based on some univariate metrics, and then selecting the highest-ranking features.
+Based on the results of multivariate analysis and KM survival curves, seven variables, including age, race, radiation, chemotherapy, surgery, AJCC T stage, and AJCC N stage, were screened out to establish prognosis models. Logistic Regression (LR), Decision Tree (DT), Random Forest (RF), and Gradient Boosting Machine (GBM) models were developed to predict the 3-year and 5-year OS. 10-fold cross-validations were used to prevent overfitting. Receiver operating characteristic (ROC) analysis was used for the evaluation of the performances of these models. For LR, DT, and RF models, the values of area under the ROC curve (AUC) and accuracy were calculated for both cross-validations and testing set. For the GBM regression model, Mean Squared Error (MSE), Root Mean Squared Error (RMSE) and AUC value were used as the evaluation metrics. The importance of each predictor was evaluated individually by ranking each predictor based on some univariate metrics, and then selecting the top-ranking predictors.
 
 ```{r}
 logreg_dat_spec <- 
@@ -390,7 +415,7 @@ logreg_dat_spec <-
   set_engine("glm")
 logreg_dat_fit <- 
   logreg_dat_spec |>
-  fit(OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
+  fit(OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
 
 dataset.glm.pred.values <-  bind_cols(
   truth = dataset.BC3$OS_3year,
@@ -400,7 +425,7 @@ dataset.glm.pred.values <-  bind_cols(
 logreg_workflow <-
   workflow() |>
   add_model(logreg_dat_spec) |>
-  add_formula(OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
+  add_formula(OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
 
 logreg_fit_cv <-
   logreg_workflow |>
@@ -410,7 +435,7 @@ logreg_fit_cv <-
 collect_metrics(logreg_fit_cv) # Accuracy and AUC for cross-validations.
 logreg_fit_cv |>
   collect_predictions() |>
-  roc_auc(OS_3year, .pred_alive) #AUC for testing dataset.
+  roc_auc(OS_3year, .pred_censored) #AUC for testing dataset.
 logreg_fit_cv |>
   collect_predictions() |>
   accuracy(OS_3year, .pred_class) # Accuracy for testing dataset.
@@ -421,12 +446,12 @@ print(var_importance)  # The importance score of each predictor.
 
 ```{r}
 rf_dat_spec <- 
-  rand_forest(trees = 550, min_n = 5) |> 
+  rand_forest(trees = 650, min_n = 5) |> 
   set_engine("randomForest") |>
   set_mode("classification")
 
 rf_dat_fit <- rf_dat_spec |>
-  fit(OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
+  fit(OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
 
 dataset.rf.pred.values <- bind_cols(
   truth = dataset.BC3$OS_3year,
@@ -436,7 +461,7 @@ dataset.rf.pred.values <- bind_cols(
 rf_workflow <-
   workflow() |>
   add_model(rf_dat_spec) |>
-  add_formula(OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
+  add_formula(OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
 
 rf_fit_cv <-
   rf_workflow |>
@@ -446,7 +471,7 @@ rf_fit_cv <-
 collect_metrics(rf_fit_cv) # Accuracy and AUC for cross-validations.
 rf_fit_cv |>
   collect_predictions() |>
-  roc_auc(OS_3year, .pred_alive) #AUC for testing dataset.
+  roc_auc(OS_3year, .pred_censored) #AUC for testing dataset.
 rf_fit_cv |>
   collect_predictions() |>
   accuracy(OS_3year, .pred_class) # Accuracy for testing dataset.
@@ -461,7 +486,7 @@ tree_spec <- decision_tree() |>
  set_mode("classification")
 
 tree_fit <- tree_spec |>
- fit(OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage , data = dataset.BC3)
+ fit(OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage , data = dataset.BC3)
 
 dataset.dt.pred.values <- bind_cols(
   truth = dataset.BC3$OS_3year,
@@ -471,7 +496,7 @@ dataset.dt.pred.values <- bind_cols(
 dt_workflow <-
   workflow() |>
   add_model(tree_spec) |>
-  add_formula(OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage )
+  add_formula(OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage )
 
 dt_fit_cv <-
   dt_workflow |>
@@ -481,7 +506,7 @@ dt_fit_cv <-
 collect_metrics(dt_fit_cv)  # Accuracy and AUC for cross-validations.
 dt_fit_cv |>
   collect_predictions() |>
-  roc_auc(OS_3year, .pred_alive)  #AUC for testing dataset.
+  roc_auc(OS_3year, .pred_censored)  #AUC for testing dataset.
 dt_fit_cv |>
   collect_predictions() |>
   accuracy(OS_3year, .pred_class) # Accuracy for testing dataset.
@@ -490,12 +515,12 @@ var_importance <- vip(tree_fit)
 print(var_importance) # The importance score of each predictor.
 ```
 
-For the GBM model, 10-fold cross-validation in the train set was used to assess the optimal number of subtrees. As shown in the figure below, the logarithmic loss function was minimized at a number of 308. From this, the "n.trees" parameter is determined and the model is then iteratively tested and adjusted to confirm other main hyperparameters to obtain the best model.
+For the GBM model, 10-fold cross-validations on the training set were used to assess the optimal number of subtrees. As shown in the figure below, the logarithmic loss function was minimized at a number of 376. From this, the "n.trees" parameter was determined, and the model was then iteratively tested and adjusted through grid search to confirm other main hyperparameters to obtain the best model. The iteration process was simplified in the following code chunk.
 
 ```{r}
 set.seed(123) 
 gbm1 <- gbm(
-  formula = OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
+  formula = OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
   data = dataset.BC3,
   distribution = "gaussian",  # SSE loss function
   n.trees = 700,
@@ -506,21 +531,52 @@ gbm1 <- gbm(
 )
 gbm.perf(gbm1, method = "cv")# 10-fold cross-validation in the train set to determine the optimal number of subtrees
 
+hyper_grid <- expand.grid(     # create hyperparameter grid
+  shrinkage = c(.05, .1, .15),
+  interaction.depth = c(13, 15, 17),
+  n.minobsinnode = c(20, 23, 26),          
+  min_RMSE = 0                 # a place to dump results
+)
+# train model
+for(i in 1:nrow(hyper_grid)) { 
+  set.seed(123)  
+  gbm.tune <- gbm(
+    formula = OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
+    distribution = "gaussian",
+    data = dataset.BC3,
+    n.trees = 376,
+    interaction.depth = hyper_grid$interaction.depth[i],
+    shrinkage = hyper_grid$shrinkage[i],
+    n.minobsinnode = hyper_grid$n.minobsinnode[i],
+    cv.folds = 10,
+    train.fraction = .8,
+    n.cores = NULL,   # will use all cores by default
+    verbose = FALSE
+  )
+  hyper_grid$min_RMSE[i] <- sqrt(min(gbm.tune$valid.error))  # add min training error and trees to grid
+}
+
+hyper_grid %>% 
+  dplyr::arrange(min_RMSE) %>%
+  head(6)           # present the top model with its main parameters
+```
+
+```{r}
 set.seed(123)
-  gbm.best <- gbm(
-    formula = OS_3year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
+gbm.best <- gbm(
+    formula = OS_3year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
     data = dataset.BC3,
     distribution = "gaussian",
-    n.trees = 308,
-    shrinkage = 0.04,
-    interaction.depth = 15,
-    n.minobsinnode = 22,
+    n.trees = 376,
+    shrinkage = 0.15,
+    interaction.depth = 13,
+    n.minobsinnode = 23,
     cv.folds = 10
   )
 cat('MSE:', min(gbm.best$cv.error),'\n')
 RMSE1 <- sqrt(min(gbm.best$cv.error))  # get MSE and compute RMSE
 cat('RMSE:', RMSE1,'\n')
-preds <- predict(gbm.best, newdata = dataset.BC.test, n.trees = 308, type = "response")
+preds <- predict(gbm.best, newdata = dataset.BC.test, n.trees = 376, type = "response")
 labels <- dataset.BC.test[,"OS_3year"]
 AUC.gbm <- cvAUC::AUC(predictions = preds, labels = labels)  
 cat("AUC:",AUC.gbm, "\n")  #AUC for testing dataset.
@@ -529,12 +585,12 @@ var_importance <- vip(gbm.best)
 print(var_importance)
 ```
 
-According to the performances of selected machine learning models, GBM model turned out to the best performing model in predicting 3-year OS in non-metastatic TNBC patients. It achieved an AUC of 0.681 combined with a RMSE of 0.474 for predicting 3-year OS, higher than LR, RF and DT models. ROC curves of four models for 3-year mortality prediction for all patients were created. The AUC values of the ROC curves were 0.672, 0.665, 0.622 and 0.681 for LR, RF, DT and GBM, respectively.
+According to the performances of selected machine learning models, GBM model turned out to the best performing model for predicting 3-year survival in non-metastatic TNBC patients. It achieved an AUC of 0.809 combined with a RMSE of 0.376 for predicting 3-year survival, higher than LR, RF and DT models. ROC curves of four models for 3-year OS prediction for testing set were created. The AUC values of four ROC curves were 0.777, 0.736, 0.646 and 0.809 for LR, RF, DT and GBM, respectively.
 
 ```{r}
-roc1 <- roc(collect_predictions(logreg_fit_cv),OS_3year,.pred_alive)
-roc2 <- roc(collect_predictions(rf_fit_cv),OS_3year,.pred_alive)
-roc3 <- roc(collect_predictions(dt_fit_cv),OS_3year,.pred_alive)
+roc1 <- roc(collect_predictions(logreg_fit_cv),OS_3year,.pred_censored)
+roc2 <- roc(collect_predictions(rf_fit_cv),OS_3year,.pred_censored)
+roc3 <- roc(collect_predictions(dt_fit_cv),OS_3year,.pred_censored)
 roc4 <- roc(dataset.BC.test$OS_3year, preds)
 
 plot(roc1, print.auc=TRUE,
@@ -545,21 +601,18 @@ plot(roc1, print.auc=TRUE,
      grid=c(0.5, 0.2),
      grid.col=c("black", "black"),
      max.auc.polygon=TRUE,
-     print.thres=TRUE,
-     print.thres.cex=0.8,
-     lty=1,main="ROC Curves for 3-year OS prediction",
+     lty=1,main="ROC Curves for 3-year survival prediction",
      mfrow=c(1,1))
 plot(roc2,add=T,col="red", print.auc=TRUE,print.auc.x=0.3,print.auc.y=0.3)
 plot(roc3,add=T,col="blue",print.auc=TRUE,print.auc.x=0.5,print.auc.y=0.5)
 plot(roc4,add=T,col="green",print.auc=TRUE,print.auc.x=0.6,print.auc.y=0.6)
 legend("bottomright",legend=c("LR","RF","DT","GBM"),col=c("black","red","blue","green"),lwd = 2) 
-
 ```
 
 ```{r}
 logreg_dat_fit2 <- 
   logreg_dat_spec |>
-  fit(OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
+  fit(OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
 
 dataset.glm.pred.values2 <- bind_cols(
   truth = dataset.BC3$OS_5year,
@@ -569,7 +622,7 @@ dataset.glm.pred.values2 <- bind_cols(
 logreg_workflow2 <-
   workflow() |>
   add_model(logreg_dat_spec) |>
-  add_formula(OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
+  add_formula(OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
 
 logreg_fit_cv2 <-
   logreg_workflow2 |>
@@ -579,7 +632,7 @@ logreg_fit_cv2 <-
 collect_metrics(logreg_fit_cv2) # Accuracy and AUC for cross-validations.
 logreg_fit_cv2 |>
   collect_predictions() |>
-  roc_auc(OS_5year, .pred_alive)  # AUC for testing dataset.
+  roc_auc(OS_5year, .pred_censored)  # AUC for testing dataset.
 logreg_fit_cv2 |>
   collect_predictions() |>
   accuracy(OS_5year, .pred_class) # Accuracy for testing dataset.
@@ -590,12 +643,12 @@ print(var_importance)
 
 ```{r}
 rf_dat_spec2 <- 
-  rand_forest(trees = 750, min_n = 4) |> 
+  rand_forest(trees = 700, min_n = 4) |> 
   set_engine("randomForest") |>
   set_mode("classification")
 
 rf_dat_fit2 <- rf_dat_spec2 |>
-  fit(OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
+  fit(OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
 
 dataset.rf.pred.values2 <- bind_cols(
   truth = dataset.BC3$OS_5year,
@@ -605,7 +658,7 @@ dataset.rf.pred.values2 <- bind_cols(
 rf_workflow2 <-
   workflow() |>
   add_model(rf_dat_spec) |>
-  add_formula(OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
+  add_formula(OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
 
 rf_fit_cv2 <-
   rf_workflow2 |>
@@ -615,7 +668,7 @@ rf_fit_cv2 <-
 collect_metrics(rf_fit_cv2)  # Accuracy and AUC for cross-validations.
 rf_fit_cv2 |>
   collect_predictions() |>
-  roc_auc(OS_5year, .pred_alive) # AUC for testing dataset.
+  roc_auc(OS_5year, .pred_censored) # AUC for testing dataset.
 rf_fit_cv2 |>
   collect_predictions() |>
   accuracy(OS_5year, .pred_class) # Accuracy for testing dataset.
@@ -626,7 +679,7 @@ print(var_importance)
 
 ```{r}
 tree_fit2 <- tree_spec |>
- fit(OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
+ fit(OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage, data = dataset.BC3)
 
 dataset.dt.pred.values2 <- bind_cols(
   truth = dataset.BC3$OS_5year,
@@ -636,7 +689,7 @@ dataset.dt.pred.values2 <- bind_cols(
 dt_workflow2 <-
   workflow() |>
   add_model(tree_spec) |>
-  add_formula(OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
+  add_formula(OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage)
 
 dt_fit_cv2 <-
   dt_workflow2 |>
@@ -646,7 +699,7 @@ dt_fit_cv2 <-
 collect_metrics(dt_fit_cv2)  # Accuracy and AUC for cross-validations.
 dt_fit_cv2 |>
   collect_predictions() |>
-  roc_auc(OS_5year, .pred_alive) # AUC for testing dataset.
+  roc_auc(OS_5year, .pred_censored) # AUC for testing dataset.
 dt_fit_cv2 |>
   collect_predictions() |>
   accuracy(OS_5year, .pred_class) # Accuracy for testing dataset.
@@ -655,37 +708,67 @@ var_importance <- vip(tree_fit2)
 print(var_importance)
 ```
 
-For GBM model, the logarithmic loss function was minimized at a number of 248 as shown in the figure below. From this, the "n.trees" parameter is determined and the model is then iteratively tested and adjusted to confirm other main hyperparameters to obtain the best model.
+For GBM model, the "n.trees" parameter was determined by minimizing the logarithmic loss function at a number of 354, and then the model was iteratively tested and adjusted by grid search to confirm other main hyperparameters to obtain the best model. The iteration process was simplified in the following chunk.
 
 ```{r}
 set.seed(123) 
 gbm2 <- gbm(
-  formula = OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
+  formula = OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
   data = dataset.BC3,
   distribution = "gaussian",  # SSE loss function
   n.trees = 700,
   shrinkage = 0.01,
   interaction.depth = 10,
-  n.minobsinnode = 15,
+  n.minobsinnode = 20,
   cv.folds = 10
 )
 gbm.perf(gbm2, method = "cv")# 10-fold cross-validation in the train set to determine the optimal number of subtrees
 
+hyper_grid2 <- expand.grid(
+  shrinkage = c(.07, .09, 0.11),
+  interaction.depth = c(15, 16, 17),
+  n.minobsinnode = c(20, 23, 25),         
+  min_RMSE = 0                     
+)
+# train model
+for(i in 1:nrow(hyper_grid2)) {    
+  set.seed(123)
+  gbm.tune2 <- gbm(
+    formula = OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
+    distribution = "gaussian",
+    data = dataset.BC3,
+    n.trees = 354,
+    interaction.depth = hyper_grid2$interaction.depth[i],
+    shrinkage = hyper_grid2$shrinkage[i],
+    n.minobsinnode = hyper_grid2$n.minobsinnode[i],
+    train.fraction = .8,
+    cv.folds = 10,
+    n.cores = NULL, 
+    verbose = FALSE
+  )
+  hyper_grid2$min_RMSE[i] <- sqrt(min(gbm.tune2$valid.error))
+}
+hyper_grid2 %>% 
+  dplyr::arrange(min_RMSE) %>%
+  head(6)
+```
+
+```{r}
 set.seed(123)
   gbm.best2 <- gbm(
-    formula = OS_5year ~ Age70 + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
+    formula = OS_5year ~ Age70 + Race + Radiation + Chemotherapy + Surgery + AJCC_T_Stage + AJCC_N_Stage,
     data = dataset.BC3,
     distribution = "gaussian",
-    n.trees = 248,
-    shrinkage = 0.05,
-    interaction.depth = 15,
-    n.minobsinnode = 22,
+    n.trees = 354,
+    shrinkage = 0.09,
+    interaction.depth = 16,
+    n.minobsinnode = 20,
     cv.folds = 10
   )
 cat('MSE:', min(gbm.best2$cv.error),'\n')
 RMSE <- sqrt(min(gbm.best2$cv.error))  # get MSE and compute RMSE
 cat('RMSE:', RMSE,'\n')
-preds2 <- predict(gbm.best2, newdata = dataset.BC.test, n.trees = 248, type = "response")
+preds2 <- predict(gbm.best2, newdata = dataset.BC.test, n.trees = 354, type = "response")
 labels2 <- dataset.BC.test[,"OS_5year"]
 AUC.gbm2 <- cvAUC::AUC(predictions = preds2, labels = labels2)
 cat("AUC:",AUC.gbm2, "\n")   # AUC for testing dataset.
@@ -694,12 +777,12 @@ var_importance <- vip(gbm.best2)
 print(var_importance)
 ```
 
-According to the performances of selected models based on 10-fold cross validation, GBM model turned out to the best performing model in predicting 5-year OS in non-metastatic TNBC patients as well. It achieved an AUC of 0.683 with a RMSE of 0.464 for predicting 5-year OS, higher than LR, RF and DT models.
+According to the performances of selected models, GBM model turned to the best performing model for predicting 5-year survival in non-metastatic TNBC patients as well. It achieved an AUC of 0.788 with a RMSE of 0.410 for predicting 5-year survival, higher than LR, RF and DT models.
 
 ```{r}
-roc5 <- roc(collect_predictions(logreg_fit_cv2),OS_5year,.pred_alive)
-roc6 <- roc(collect_predictions(rf_fit_cv2),OS_5year,.pred_alive)
-roc7 <- roc(collect_predictions(dt_fit_cv2),OS_5year,.pred_alive)
+roc5 <- roc(collect_predictions(logreg_fit_cv2),OS_5year,.pred_censored)
+roc6 <- roc(collect_predictions(rf_fit_cv2),OS_5year,.pred_censored)
+roc7 <- roc(collect_predictions(dt_fit_cv2),OS_5year,.pred_censored)
 roc8 <- roc(dataset.BC.test$OS_5year, preds2)
 
 plot(roc5, print.auc=TRUE,
@@ -710,9 +793,7 @@ plot(roc5, print.auc=TRUE,
      grid=c(0.5, 0.2),
      grid.col=c("black", "black"),
      max.auc.polygon=TRUE,
-     print.thres=TRUE,
-     print.thres.cex=0.8,
-     lty=1,main="ROC Curves for 5-year OS prediction",
+     lty=1,main="ROC Curves for 5-year survival prediction",
      mfrow=c(1,1))
 plot(roc6,add=T,col="red", print.auc=TRUE,print.auc.x=0.3,print.auc.y=0.35)
 plot(roc7,add=T,col="blue",print.auc=TRUE,print.auc.x=0.5,print.auc.y=0.45)
@@ -721,25 +802,25 @@ legend("bottomright",legend=c("LR","RF","DT","GBM"),col=c("black","red","blue","
 
 ```
 
-ROC curves of four models for 5-year mortality prediction for all patients were created. The AUC values of the ROC curves were 0.667, 0.641, 0.636 and 0.683 for LR, RF, DT and GBM, respectively.
+ROC curves of four models for 5-year survival prediction on testing set were created. The AUC values of four ROC curves were 0.757, 0.729, 0.653 and 0.788 for LR, RF, DT and GBM, respectively.
 
 ## Discussion and Conclusion
 
-In this study, I examined the independent prognostic factors for OS in non-metastatic TNBC women and developed and validated machine learning models to predict TNBC prognosis. The analysis identified six variables, including age, radiation, chemotherapy, surgery, AJCC T stage, and AJCC N stage, as independent prognostic factors in predicting long-term OS in non-metastatic TNBC patients. Based on these variables, I successfully established four different models, Logistic Regression(LR), Decision Tree(DF), Random Forest(RF), and gradient boosting(GBM) for predicting the 3- and 5- year OS in selected patient cohort using 10-fold cross-validation. Results showed that GBM outperformed the other models, attaining an AUC of 0.681 for predicting 3-year mortality, and an AUC of 0.683 for predicting 5-year mortality. The study's findings provide evidence indicating that the GBM model is a reliable and efficacious tool for predicting cancer patient survival. I believe the results of the study could help clinicians better distinguish triple-negative breast cancer patients with high risk and devise better-individualized management plans with relatively more aggressive treatment approaches.
+In this study, I examined the independent prognostic factors for OS in non-metastatic TNBC women, and developed and validated machine learning models to predict TNBC prognosis. The analysis identified seven variables, including age, race, radiation, chemotherapy, surgery, AJCC T stage, and AJCC N stage, as independent prognostic factors in predicting long-term OS in non-metastatic TNBC patients. Based on these variables, I successfully established four prognosis models, LR, DF, RF, and GBM, for predicting 3- and 5- year OS in selected patient cohort using 10-fold cross-validations. Results showed that GBM outperformed the other models, attaining an AUC of 0.809 for predicting 3-year survival, and an AUC of 0.788 for predicting 5-year survival. The results of this study provide evidence indicating that the GBM model is a reliable and efficacious tool for predicting long-term survival in TNBC patients. The findings could also help clinicians better distinguish high-risk TNBC patients and devise better-individualized management plans, including relatively more aggressive treatment approaches.
 
-In addition to the models described in the main body, Kaplan-Meier survival curves were constructed for patient subgroups divided by potential risk factors. Patients who underwent radiation, chemotherapy, or surgery demonstrated a superior response to prolonged survival in comparison to those who did not undergo these treatments. The importance score of each variable showed that features derived from the AJCC staging exhibited the greatest impact in predicting prolonged survival. The AJCC T stage indicates the size of the primary tumor and correlates with an increased risk of decreased survival time as the tumor size increases. The AJCC N stage indicates the number of lymph nodes impacted by cancer, with a higher AJCC N stage indicating a greater risk of decreased survival time.
+In addition to the models described in the main body, Kaplan-Meier survival curves were constructed for different patient subgroups divided by potential risk factors. Patients who underwent radiation, chemotherapy, or surgery demonstrated a superior response to prolonged survival in comparison to those who did not undergo these treatments. The importance scores of each variable showed that AJCC T and N features derived from the AJCC staging exhibited the greatest impact in predicting survival outcomes. Since AJCC T stage indicates the size of the primary tumor and AJCC N stage indicates the number of lymph nodes impacted by cancer, both of which correlate with tumor burden, a higher AJCC T or N stage typically means higher tumor burden, leading to an increased risk of decreased survival time.
 
-However, it is important to acknowledge some inevitable limitations. Since the SEER database only provided overall survival time, we could not estimate cancer-specific survival nor eliminate the impact of comorbidity on the outcome differences of patients in this study. Although breast cancer is a leading cause of death in this patient population, the presence of different comorbidities might lead to potential bias, particularly if not measured accurately. Therefore, it is crucial to evaluate the benefits and drawbacks of prediction model options on a case-by-case basis. Furthermore, it should be noted that the models created in this study have yet to be confirmed in the external validation cohort. Further research is needed to accurately isolate the various contributing factors and explore how machine learning incorporates the inherent complexity of clinical decision-making, as well as its impact on patient outcomes.
+However, it is important to acknowledge some inevitable limitations in this study. First, the character of the retrospective design was inevitably flawed with bias. Second, the SEER database only provided OS, so we could not estimate cancer-specific survival time nor eliminate the impact of comorbidity on patient outcomes. Although breast cancer is a leading cause of death in this patient cohort, the presence of different comorbidities might lead to potential bias, particularly if not measured accurately. Therefore, it is crucial to evaluate the benefits and drawbacks of prediction model options on a case-by-case basis. Third, some clinical risk factors (e.g., Ki-67 index, 21-Gene Recurrence Score, BRCA1- and BRCA2- related mutation)\[12-14\], and information on insurance and socioeconomic status\[15,16\] that have been found to be associated with the young breast cancer-specific survival in other studies were unavailable in the SEER database. Finally, it should be noted that the models created in this study have yet to be confirmed in the external validation cohort. In conclusion, further research is needed to accurately isolate the various contributing factors and explore how machine learning incorporates the inherent complexity of clinical decision-making, as well as its impact on patient outcomes.
 
 ## References
 
-1\. Centers for Disease Control and Prevention. *U.S. Cancer Statistics Female Breast Cancer Stat Bite*. US Department of Health and Human Services; 2023.
+1\. Centers for Disease Control and Prevention. [Breast Cancer Statistics](https://www.cdc.gov/cancer/breast/statistics/index.htm). US Department of Health and Human Services; 2023.
 
 2\. Sung H, Ferlay J, Siegel RL, Laversanne M, Soerjomataram I, Jemal A, et al. Global cancer statistics 2020: globocan estimates of incidence and mortality worldwide for 36 cancers in 185 countries. CA Cancer J Clin. (2021) 71:209--49.
 
 3\. Hendrick RE, Helvie MA, Monticciolo DL. Breast Cancer Mortality Rates Have Stopped Declining in U.S. Women Younger than 40 Years. Radiology. 2021 Apr;299(1):143-149.
 
-4\. Hudis C.A., Gianni L. Triple-negative breast cancer: An unmet medical need. *Oncologist.* 2011;16((Suppl. S1)):1--11.
+4\. Hudis C.A., Gianni L. Triple-negative breast cancer: An unmet medical need. Oncologist*.* 2011;16((Suppl. S1)):1--11.
 
 5\. Abd El-Aziz YS, Gillson J, Jansson PJ, Sahni S. Autophagy: A promising target for triple negative breast cancers. Pharmacol Res. 2022 Jan;175:106006.
 
@@ -751,6 +832,16 @@ However, it is important to acknowledge some inevitable limitations. Since the S
 
 9\. Casillas N, Torres AM, Moret M, Gómez A, Rius-Peris JM, Mateo J. Mortality predictors in patients with COVID-19 pneumonia: a machine learning approach using eXtreme Gradient Boosting model. Intern Emerg Med. 2022 Oct;17(7):1929-1939.
 
-10\. Deif, M. A., Hammam, R. E., & Solyman, A. A. A. (2021). Gradient boosting machine based on PSO for prediction of leukemia after a breast cancer diagnosis. International Journal on Advanced Science, Engineering and Information Technology, 11(2), 508-515.
+10\. Deif MA, Hammam RE, Solyman AA. Gradient boosting machine based on PSO for prediction of leukemia after a breast cancer diagnosis. International Journal on Advanced Science, Engineering and Information Technology. 2021 Apr 30;11(2):508-15.
 
-11\. National Cancer Institute: Overview of the SEER program. [[https://seer.cancer.gov/about/overview.html]{.underline}](https://seer.cancer.gov/about/overview.html).
+11\. National Cancer Institute: Overview of the SEER program. Avaliable at: [[https://seer.cancer.gov/about/overview.html]{.underline}](https://seer.cancer.gov/about/overview.html).
+
+12\. Zhu X, Chen L, Huang B, Wang Y, Ji L, Wu J, Di G, Liu G, Yu K, Shao Z, Wang Z. The prognostic and predictive potential of Ki-67 in triple-negative breast cancer. Sci Rep. 2020 Jan 14;10(1):225. 
+
+13\. Nash AL, Ren Y, Plichta JK, Rosenberger LH, van den Bruele AMB, DiNome ML, Westbrook K, Hwang ES. Survival Benefit of Chemotherapy According to 21-Gene Recurrence Score in Young Women with Breast Cancer. Ann Surg Oncol. 2023 Apr;30(4):2130-2139.
+
+14\. Sønderstrup IMH, Jensen MR, Ejlertsen B, Eriksen JO, Gerdes AM, Kruse TA, Larsen MJ, Thomassen M, Lænkholm AV. Subtypes in BRCA-mutated breast cancer. Hum Pathol. 2019 Feb;84:192-201. 
+
+15\. Hsu CD, Wang X, Habif DV Jr, Ma CX, Johnson KJ. Breast cancer stage variation and survival in association with insurance status and sociodemographic factors in US women 18 to 64 years old. Cancer. 2017 Aug 15;123(16):3125-3131.
+
+16\. ji P, Gong Y, Jiang CC, Hu X, Di GH, Shao ZM. Association between socioeconomic factors at diagnosis and survival in breast cancer: A population-based study. Cancer Med. 2020 Mar;9(5):1922-1936.
