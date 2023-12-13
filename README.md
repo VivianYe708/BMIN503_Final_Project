@@ -13,7 +13,7 @@ Email: YeWen@pennmedicine.upenn.edu
 
 **Objective**
 
-Breast cancer(BC) is the second most commonly diagnosed cancer in women in the United States, and the primary cause of death among women worldwide. The ability to estimate prognosis is crucial for both patients and providers in order to select the most appropriate treatment. However, few researches using machine learning to study TNBC prognosis have been conducted, and few prediction models have been compared and validated. This project aimed to analyze the prognostic factors of patients with non-metastatic triple negative breast cancer (TNBC) and to construct and compare prediction models for forecasting the 3-, and 5-year survival and death based on machine learning.
+Breast cancer(BC) is the second most commonly diagnosed cancer in women in the United States, and the primary cause of death among women worldwide. The ability to estimate prognosis is crucial for both patients and providers in order to select the most appropriate treatment. However, few researches using machine learning to study TNBC prognosis have been conducted. This project aimed to analyze the prognostic factors of patients with non-metastatic triple negative breast cancer (TNBC) and to construct and compare prediction models for forecasting the 3-, and 5-year survival based on machine learning.
 
 **Methodology**
 
